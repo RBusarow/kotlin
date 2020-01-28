@@ -119,7 +119,7 @@ abstract class AbstractKotlinMavenInspectionTest : MavenImportingTestCase() {
             val (problem, quickfix) = suggestedFix
             val file = rangesToFixFiles.entries.first { (_, range) -> index + 1 in range }.key
 
-            quickfix.applyFix(problem)
+            applyQuickFix(quickfix, myProject, problem)
 
             KotlinTestUtils.assertEqualsToFile(file, document.text.trim())
 
