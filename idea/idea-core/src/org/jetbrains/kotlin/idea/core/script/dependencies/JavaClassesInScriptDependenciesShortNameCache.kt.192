@@ -24,7 +24,7 @@ import com.intellij.psi.impl.java.stubs.index.JavaShortClassNameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiShortNamesCache
 import com.intellij.psi.stubs.StubIndex
-import com.intellij.util.Processor
+import org.jetbrains.kotlin.idea.caches.PsiMethodProcessor
 import com.intellij.util.containers.HashSet
 import org.jetbrains.kotlin.idea.core.script.ScriptConfigurationManager
 
@@ -37,7 +37,7 @@ class JavaClassesInScriptDependenciesShortNameCache(private val project: Project
     override fun getClassesByName(name: String, scope: GlobalSearchScope): Array<out PsiClass> {
         val classpathScope = ScriptConfigurationManager.getInstance(project).getAllScriptsDependenciesClassFilesScope()
         val classes = StubIndex.getElements(
-                JavaShortClassNameIndex.getInstance().key, name, project, classpathScope.intersectWith(scope), PsiClass::class.java
+            JavaShortClassNameIndex.getInstance().key, name, project, classpathScope.intersectWith(scope), PsiClass::class.java
         )
         return classes.toTypedArray()
     }
@@ -52,7 +52,7 @@ class JavaClassesInScriptDependenciesShortNameCache(private val project: Project
 
     override fun getMethodsByNameIfNotMoreThan(name: String, scope: GlobalSearchScope, maxCount: Int): Array<PsiMethod> = PsiMethod.EMPTY_ARRAY
 
-    override fun processMethodsWithName(name: String, scope: GlobalSearchScope, processor: Processor<PsiMethod>) = true
+    override fun processMethodsWithName(name: String, scope: GlobalSearchScope, processor: PsiMethodProcessor) = true
 
     override fun getAllFieldNames() = emptyArray<String>()
 
